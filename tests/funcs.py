@@ -19,25 +19,77 @@ def add_two(a, b):
 
     return a + b
 
-def add_with_default(p, q=5):
+def add_with_default(a, b=5):
     """
     Add two numbers with a sensible default.
 
     Parameters
     ----------
-    p : float
+    a : float
         The first number to add.
-    q : float
+    b : float
         The second number to add. Defaults to 5.
 
     Returns
     -------
-    r : float
-        The sum of p and q.
+    c : float
+        The sum of a and b.
 
     """
 
-    return p + q
+    return a + b
+
+def add_with_optional_negation(a, b, negate=False):
+    """
+    Add two numbers with a sensible default.
+
+    Parameters
+    ----------
+    a : float
+        The first number to add.
+    b : float
+        The second number to add.
+    negate : bool
+        Whether to negate the sum. Defaults to False.
+
+    Returns
+    -------
+    c : float
+        The sum of a and b, maybe negated.
+
+    """
+
+    c = a + b
+    if negate:
+        c = -c
+
+    return c
+
+def add_with_negation(a, b, negate):
+    """
+    Add two numbers with a sensible default.
+
+    Parameters
+    ----------
+    a : float
+        The first number to add.
+    b : float
+        The second number to add.
+    negate : bool
+        Whether to negate the sum.
+
+    Returns
+    -------
+    c : float
+        The sum of a and b, maybe negated.
+
+    """
+
+    c = a + b
+    if negate:
+        c = -c
+
+    return c
 
 def subtract_three(a, b, c):
     """

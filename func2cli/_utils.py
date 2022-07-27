@@ -1,6 +1,8 @@
 import builtins
 import inspect
 
+from argparse import BooleanOptionalAction
+
 def default_parse_func(func):
     """
     Parse a function and its docstring, and return data for argument parsing.
@@ -58,21 +60,35 @@ def _get_params(docstring, defaults):
     for line in [s[4:] for s in docstring.split('\n')]:
         if not line.startswith('    '):
             param_name, type_name = line.split(' : ')
-            prefix = '--' if param_name in defaults else ''
             default = defaults.get(param_name, None)
+            prefix = '--' if param_name in defaults else ''
+
+            if prefix:
+                param_name = param_name.replace('_', '-')
 
             params.append({
                 'param_name' : prefix + param_name,
                 'metavar' : param_name.replace('_', '-'),
-                'type' : getattr(builtins, type_name),
-                'default' : default,
-                'help' : []
+                'type' : _get_type(type_name),
+                'default' : default
             })
 
         else:
-            params[-1]['help'].append(line.strip())
+            params[-1].setdefault('help', []).append(line.strip())
 
     for param in params:
         param['help'] = ' '.join(param['help'])
 
     return params
+
+def _get_type(type_name):
+    if type_name == 'bool':
+        return _parse_bool
+
+    return getattr(builtins, type_name)
+
+def _parse_bool(s):
+    if isinstance(s, bool):
+        return s
+
+    return {'True' : True, 'False' : False}[s]
