@@ -58,7 +58,7 @@ if __name__ == '__main__':
     print(output)
 ```
 Usage information is automatically available at the command line.
-```
+```console
 $ python script.py -h
 usage: script.py [-h] {add-three,modify-string} ...
 
@@ -71,7 +71,7 @@ options:
   -h, --help            show this help message and exit
 ```
 `script.py` has two allowed positional arguments, one for each of the functions passed to the `FunctionParser`. Moreover, usage information for individual positional arguments can also be displayed.
-```
+```console
 $ python script.py add-three -h
 usage: script.py add-three [-h] [--c c] a b
 
@@ -84,20 +84,20 @@ options:
   --c c       The third number to add. (default: 7)
 ```
 `func2cli` automatically treats parameters with default values as optional command line arguments.
-```
+```console
 $ python script.py add-three 2 4
 13.0
 $ python script.py add-three 2 4 --c -8
 -2.0
 ```
 The `FunctionParser` knows what types are permissible for each argument. For example, the arguments to `add-three` should all be floats, and so an invalid argument passed at the command line raises an error.
-```
+```console
 $ python script.py add-three 1 foo
 usage: script.py add-three [-h] [--c c] a b
 script.py add-three: error: argument b: invalid float value: 'foo'
 ```
 Boolean arguments should be passed as the strings `True` and `False`. This convention breaks with traditional `argparse` idioms, but makes the resulting command line statements more similar to their corresponding Python function calls.
-```
+```console
 $ python script.py modify-string -h
 usage: script.py modify-string [-h] [--reverse reverse] s
 
