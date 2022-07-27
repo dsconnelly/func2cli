@@ -37,7 +37,10 @@ class FunctionParser:
 
         for func in funcs:
             name, description, params = parse_func(func)
-            subparser = adder.add_parser(name, help=description)
+            subparser = adder.add_parser(
+                name, help=description,
+                formatter_class=argparse.ArgumentDefaultsHelpFormatter
+            )
             subparser.set_defaults(func=func)
 
             for param in params:
