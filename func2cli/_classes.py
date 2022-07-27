@@ -15,14 +15,12 @@ class FunctionParser:
 
     """
 
-    def __init__(self, program, funcs, parse_func=default_parse_func):
+    def __init__(self, funcs, parse_func=default_parse_func):
         """
         Initialize a FunctionParser.
 
         Parameters
         ----------
-        program : str
-            The name of the program.
         funcs : list of functions
             A list of functions corresponding to the subparsers that will be
             created. Each should have a docstring readable by parse_func.
@@ -34,7 +32,7 @@ class FunctionParser:
 
         """
 
-        self.parser = argparse.ArgumentParser(program)
+        self.parser = argparse.ArgumentParser()
         adder = self.parser.add_subparsers()
 
         for func in funcs:
