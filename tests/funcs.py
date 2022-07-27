@@ -19,6 +19,26 @@ def add_two(a, b):
 
     return a + b
 
+def add_with_default(p, q=5):
+    """
+    Add two numbers with a sensible default.
+
+    Parameters
+    ----------
+    p : float
+        The first number to add.
+    q : float
+        The second number to add. Defaults to 5.
+
+    Returns
+    -------
+    r : float
+        The sum of p and q.
+
+    """
+
+    return p + q
+
 def subtract_three(a, b, c):
     """
     Subtract three numbers.

@@ -1,4 +1,5 @@
 import builtins
+import inspect
 
 def default_parse_func(func):
     """
@@ -39,14 +40,32 @@ def default_parse_func(func):
     docstring = docstring[(docstring.index(header) + len(header)):]
     docstring = docstring[:docstring.index('\n\n')]
 
+    defaults = _get_defaults(func)
+    params = _get_params(docstring, defaults)
+
+    return name, description, params
+
+def _get_defaults(func):
+    defaults = {}
+    for k, v in inspect.signature(func).parameters.items():
+        if v.default is not inspect.Parameter.empty:
+            defaults[k] = v.default
+
+    return defaults
+
+def _get_params(docstring, defaults):
     params = []
     for line in [s[4:] for s in docstring.split('\n')]:
         if not line.startswith('    '):
             param_name, type_name = line.split(' : ')
+            prefix = '--' if param_name in defaults else ''
+            default = defaults.get(param_name, None)
+
             params.append({
-                'param_name' : param_name,
+                'param_name' : prefix + param_name,
                 'metavar' : param_name.replace('_', '-'),
                 'type' : getattr(builtins, type_name),
+                'default' : default,
                 'help' : []
             })
 
@@ -56,4 +75,4 @@ def default_parse_func(func):
     for param in params:
         param['help'] = ' '.join(param['help'])
 
-    return name, description, params
+    return params
