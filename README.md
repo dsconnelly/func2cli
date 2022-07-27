@@ -1,5 +1,10 @@
 `func2cli` is a wrapper around the standard Python `argparse` library that intelligently passes arguments from the command line to one or more Python functions. `func2cli` reads the docstrings of those functions and extracts relevant information that is then passed to calls of the `add_argument` method of `argparse` parsers.
 
+`func2cli` can be installed with
+```
+pip install func2cli
+```
+
 The example script below uses `func2cli` to pass command line arguments to one of two simple functions.
 ```python
 # script.py
