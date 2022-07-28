@@ -1,3 +1,46 @@
+def add_many(start, others):
+    """
+    Add one number to a variable number of others.
+
+    Parameters
+    ----------
+    start : float
+        The number to start with.
+    others : list of float
+        The numbers to be added on.
+
+    Returns
+    -------
+    output : float
+        The sum of start and the values in others.
+
+    """
+
+    return start + sum(others)
+
+def add_many_optional(start, others=None):
+    """
+    Add one number to a variable number of others, maybe even no others.
+
+    Parameters
+    ----------
+    start : float
+        The number to start with.
+    others : list of float
+        The numbers to be added on. If None, defaults to the empty list.
+
+    Returns
+    -------
+    output : float
+        The sum of start and the values in others.
+
+    """
+
+    if others is None:
+        others = []
+
+    return start + sum(others)
+
 def add_two(a, b):
     """
     Add two numbers together.

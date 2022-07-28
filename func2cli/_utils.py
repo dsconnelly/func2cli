@@ -1,4 +1,5 @@
 import builtins
+import functools
 import inspect
 
 from argparse import BooleanOptionalAction
@@ -82,13 +83,19 @@ def _get_params(docstring, defaults):
     return params
 
 def _get_type(type_name):
+    if type_name.startswith('list'):
+        type_name = type_name.split(' of ')[-1]
+        cast = _get_type(type_name)
+
+        return functools.partial(_parse_list, cast=cast)
+
     if type_name == 'bool':
         return _parse_bool
 
     return getattr(builtins, type_name)
 
 def _parse_bool(s):
-    if isinstance(s, bool):
-        return s
-
     return {'True' : True, 'False' : False}[s]
+
+def _parse_list(s, cast):
+    return [cast(v) for v in s.split(',')]
