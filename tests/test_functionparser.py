@@ -34,3 +34,9 @@ def test_optional_bool():
         '4', '6',
         '--negate', 'True']
     ) == -10
+
+def test_single():
+    parser = FunctionParser(add_with_negation)
+
+    assert parser.run(['4', '6', 'False']) == 10
+    assert parser.run(['4', '6', 'True']) == -10
