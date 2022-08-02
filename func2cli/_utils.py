@@ -78,7 +78,7 @@ def _get_params(docstring, defaults):
             params[-1].setdefault('help', []).append(line.strip())
 
     for param in params:
-        param['help'] = ' '.join(param['help'])
+        param['help'] = ' '.join(param['help']).replace('_', '-')
 
     return params
 
