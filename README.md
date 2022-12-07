@@ -1,4 +1,4 @@
-`func2cli` is a wrapper around the standard Python `argparse` library that intelligently passes arguments from the command line to one or more Python functions. `func2cli` reads the docstrings of those functions and extracts relevant information that is then passed to calls of the `add_argument` method of `argparse` parsers.
+`func2cli` is a wrapper around the standard Python `argparse` library that intelligently passes arguments from the command line to one or more Python functions. `func2cli` reads the type hints and docstrings of those functions and extracts relevant information that is then passed to calls of the `add_argument` method of `argparse` parsers.
 
 `func2cli` can be installed with
 ```
@@ -11,43 +11,36 @@ The example script below uses `func2cli` to pass command line arguments to one o
 
 from func2cli import FunctionParser
 
-def add_three(a, b, c=7):
+def add_three(a: float, b: float, c: float=7) -> float:
     """
     Add three numbers together.
 
     Parameters
     ----------
-    a : float
-        The first number to add.
-    b : float
-        The second number to add.
-    c : float
-        The third number to add.
+    a : The first number to add.
+    b : The second number to add.
+    c : The third number to add.
 
     Returns
     -------
-    d : float
-        The sum of a, b, and c.
+    d : The sum of a, b, and c.
 
     """
 
     return a + b + c
 
-def modify_string(s, reverse=False):
+def modify_string(s: str, reverse: bool=False) -> str:
     """
     Make a string upper case, and maybe reverse it.
 
     Parameters
     ----------
-    s : str
-        The original string.
-    reverse : bool
-        Whether to reverse the string.
+    s : The original string.
+    reverse : Whether to reverse the string.
 
     Returns
     -------
-    output : str
-        The modified string.
+    output : The modified string.
 
     """
 
@@ -80,6 +73,8 @@ options:
 $ python script.py add-three -h
 usage: script.py add-three [-h] [--c c] a b
 
+Add three numbers together.
+
 positional arguments:
   a           The first number to add.
   b           The second number to add.
@@ -106,6 +101,8 @@ Boolean arguments should be passed as the strings `True` and `False`. This conve
 $ python script.py modify-string -h
 usage: script.py modify-string [-h] [--reverse reverse] s
 
+Make a string upper case, and maybe reverse it.
+
 positional arguments:
   s                  The original string.
 
@@ -115,4 +112,4 @@ options:
 $ python script.py modify-string hello --reverse True
 OLLEH
 ```
-By default, `func2cli` assumes that function docstrings look like the ones shown in `script.py` above. However, `func2cli` supports arbitrary docstring conventions by allowing the user to pass a custom `parse_func` argument to `FunctionParser`.
+By default, `func2cli` assumes that functions have type hints and docstrings that look like the ones in `script.py` above. However, `func2cli` supports arbitrary docstring conventions by allowing the user to pass a custom `parse_func` argument to `FunctionParser`.

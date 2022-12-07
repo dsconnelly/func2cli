@@ -2,7 +2,7 @@ import builtins
 import functools
 import inspect
 
-from argparse import BooleanOptionalAction
+from typing import Union, get_args, get_origin, get_type_hints
 
 def default_parse_func(func):
     """
@@ -43,10 +43,25 @@ def default_parse_func(func):
     docstring = docstring[(docstring.index(header) + len(header)):]
     docstring = docstring[:docstring.index('\n\n')]
 
+    casters = {k : _get_caster(t) for k, t in get_type_hints(func).items()}
     defaults = _get_defaults(func)
-    params = _get_params(docstring, defaults)
+    params = _get_params(docstring, casters, defaults)
 
     return name, description, params
+
+def _get_caster(t):
+    origin = get_origin(t)
+
+    if origin is list:
+        return functools.partial(_parse_list, cast=get_args(t)[0])
+
+    if origin is Union:
+        return _get_caster(get_args(t)[0])
+
+    if t is bool:
+        return _parse_bool
+
+    return t
 
 def _get_defaults(func):
     defaults = {}
@@ -56,43 +71,34 @@ def _get_defaults(func):
 
     return defaults
 
-def _get_params(docstring, defaults):
+def _get_params(docstring, casters, defaults):
     params = []
     for line in [s[4:] for s in docstring.split('\n')]:
         if not line.startswith('    '):
-            param_name, type_name = line.split(' : ')
-            default = defaults.get(param_name, None)
+            param_name, help = line.strip().split(' : ')
             prefix = '--' if param_name in defaults else ''
 
+            caster = casters[param_name]
+            default = defaults.get(param_name, None)
+            
             if prefix:
                 param_name = param_name.replace('_', '-')
 
             params.append({
                 'param_name' : prefix + param_name,
                 'metavar' : param_name.replace('_', '-'),
-                'type' : _get_type(type_name),
-                'default' : default
+                'type' : caster,
+                'default' : default,
+                'help' : [help]
             })
 
         else:
-            params[-1].setdefault('help', []).append(line.strip())
+            params[-1]['help'].append(line.strip())
 
     for param in params:
         param['help'] = ' '.join(param['help']).replace('_', '-')
 
     return params
-
-def _get_type(type_name):
-    if type_name.startswith('list'):
-        type_name = type_name.split(' of ')[-1]
-        cast = _get_type(type_name)
-
-        return functools.partial(_parse_list, cast=cast)
-
-    if type_name == 'bool':
-        return _parse_bool
-
-    return getattr(builtins, type_name)
 
 def _parse_bool(s):
     return {'True' : True, 'False' : False}[s]

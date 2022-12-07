@@ -1,38 +1,37 @@
-def add_many(start, others):
+from typing import Optional
+
+def add_many(start: float, others: list[float]) -> list[float]:
     """
     Add one number to a variable number of others.
 
     Parameters
     ----------
-    start : float
-        The number to start with.
-    others : list of float
-        The numbers to be added on.
+    start : The number to start with.
+    others : The numbers to be added on.
 
     Returns
     -------
-    output : float
-        The sum of start and the values in others.
+    output : The sum of start and the values in others.
 
     """
 
     return start + sum(others)
 
-def add_many_optional(start, others=None):
+def add_many_optional(
+    start: float, 
+    others: Optional[list[float]]=None
+) -> float:
     """
     Add one number to a variable number of others, maybe even no others.
 
     Parameters
     ----------
-    start : float
-        The number to start with.
-    others : list of float
-        The numbers to be added on. If None, defaults to the empty list.
+    start : The number to start with.
+    others : The numbers to be added on. If None, defaults to the empty list.
 
     Returns
     -------
-    output : float
-        The sum of start and the values in others.
+    output : The sum of start and the values in others.
 
     """
 
@@ -41,64 +40,54 @@ def add_many_optional(start, others=None):
 
     return start + sum(others)
 
-def add_two(a, b):
+def add_two(a: float, b: float) -> float:
     """
     Add two numbers together.
 
     Parameters
     ----------
-    a : float
-        The first number to add.
-    b : float
-        The second number to add. But for whatever reason, b has a description
+    a : The first number to add.
+    b : The second number to add. But for whatever reason, b has a description
         that stretches over several lines.
 
     Returns
     -------
-    c : float
-        The sum of a and b.
+    c : The sum of a and b.
 
     """
 
     return a + b
 
-def add_with_default(a, b=5):
+def add_with_default(a: float, b: float=5) -> float:
     """
     Add two numbers with a sensible default.
 
     Parameters
     ----------
-    a : float
-        The first number to add.
-    b : float
-        The second number to add. Defaults to 5.
+    a : The first number to add.
+    b : The second number to add. Defaults to 5.
 
     Returns
     -------
-    c : float
-        The sum of a and b.
+    c : The sum of a and b.
 
     """
 
     return a + b
 
-def add_with_optional_negation(a, b, negate=False):
+def add_with_optional_negation(a: float, b: float, negate: bool=False) -> float:
     """
     Add two numbers with a sensible default.
 
     Parameters
     ----------
-    a : float
-        The first number to add.
-    b : float
-        The second number to add.
-    negate : bool
-        Whether to negate the sum. Defaults to False.
+    a : The first number to add.
+    b : The second number to add.
+    negate : Whether to negate the sum. Defaults to False.
 
     Returns
     -------
-    c : float
-        The sum of a and b, maybe negated.
+    c : The sum of a and b, maybe negated.
 
     """
 
@@ -108,23 +97,19 @@ def add_with_optional_negation(a, b, negate=False):
 
     return c
 
-def add_with_negation(a, b, negate):
+def add_with_negation(a: float, b: float, negate: bool) -> float:
     """
     Add two numbers with a sensible default.
 
     Parameters
     ----------
-    a : float
-        The first number to add.
-    b : float
-        The second number to add.
-    negate : bool
-        Whether to negate the sum.
+    a : The first number to add.
+    b : The second number to add.
+    negate : Whether to negate the sum.
 
     Returns
     -------
-    c : float
-        The sum of a and b, maybe negated.
+    c : The sum of a and b, maybe negated.
 
     """
 
@@ -134,7 +119,7 @@ def add_with_negation(a, b, negate):
 
     return c
 
-def subtract_three(a, b, c):
+def subtract_three(a: float, b: float, c: float) -> float:
     """
     Subtract three numbers.
 
@@ -144,17 +129,13 @@ def subtract_three(a, b, c):
 
     Parameters
     ----------
-    a : float
-        The number we start with.
-    b : float
-        The first number we subtract off.
-    c : float
-        The second number we subtract off.
+    a : The number we start with.
+    b : The first number we subtract off.
+    c : The second number we subtract off.
 
     Returns
     -------
-    d : float
-        The result of subtraction, maybe negated.
+    d : The result of subtraction, maybe negated.
 
     """
 
